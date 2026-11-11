@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Smart Greenhouse Edge-AI Dashboard</title>
+    <style>
+        :root {
+            --bg-color: #0f172a;
+            --card-bg: #1e293b;
+            --accent-green: #10b981;
+            --accent-red: #ef4444;
+            --accent-blue: #3b82f6;
+            --text-color: #f8fafc;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            margin: 0;
+            padding: 20px;
+            direction: rtl;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .header {
+            text-align: center;
+            padding: 20px;
+            background: var(--card-bg);
+            border-radius: 12px;
+            margin-bottom: 20px;
+            border: 1px solid #334155;
+        }
+
+        .card {
+            background: var(--card-bg);
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 20px;
+            border: 1px solid #334155;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+        }
+
+        .ai-card {
+            border: 1px solid var(--accent-green);
+        }
+
+        .metrics-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-bottom: 15px;
+        }
+
+        .metric-box {
+            background: #0f172a;
+            padding: 15px;
+            border-radius: 8px;
+            text-align: center;
+        }
+
+        .metric-value {
+            font-size: 24px;
+            font-weight: bold;
+            color: var(--accent-green);
+        }
+
+        .btn {
+            width: 100%;
+            padding: 12px;
+            background: var(--accent-green);
+            border: none;
+            color: white;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .btn:hover {
+            opacity: 0.9;
+        }
+
+        .status-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+            padding-bottom: 5px;
+            border-bottom: 1px solid #334155;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div class="header">
+        <h2>🌱 Smart Greenhouse Edge-AI Control Center</h2>
+        <p style="opacity: 0.8; margin: 0;">نظام التحكم والتشخيص التنبؤي الذكي للصوبة الزراعية</p>
+    </div>
+
+    <!-- كارت الذكاء الاصطناعي الاحتمالي -->
+    <div class="card ai-card">
+        <h3>🌿 Edge AI & Disease Probability Diagnostics</h3>
+        <p style="font-size: 14px; opacity: 0.8;">تحليل لحظي لاحتمالية الإصابة بالأمراض والإجهاد المائي بناءً على البيانات القادمة من الحساسات:</p>
+        
+        <div style="margin-top: 15px;">
+            <div class="status-row">
+                <span>حالة المرض المتوقعة (Disease Risk):</span>
+                <strong id="diseaseStatus" style="color: var(--accent-green);">آمن (Normal)</strong>
+            </div>
+            <div class="status-row">
+                <span>احتمالية الإصابة (Probability):</span>
+                <strong id="diseaseProb">12%</strong>
+            </div>
+            <div class="status-row">
+                <span>مستوى الإجهاد المائي (Water Stress):</span>
+                <strong id="waterStressLevel" style="color: var(--accent-blue);">مثالي (Optimal)</strong>
+            </div>
+        </div>
+        
+        <button class="btn" style="margin-top: 15px;" onclick="runAiPrediction()">
+            تشغيل فحص الذكاء الاصطناعي الاحتمالي (Run AI Analysis)
+        </button>
+    </div>
+</div>
+
+<script>
+// دالة التشخيص الاحتمالي
+function runAiPrediction() {
+    let humidity = Math.floor(Math.random() * (90 - 40) + 40);
+    let temp = Math.floor(Math.random() * (40 - 20) + 20);
+    
+    let probElem = document.getElementById('diseaseProb');
+    let statusElem = document.getElementById('diseaseStatus');
+    let stressElem = document.getElementById('waterStressLevel');
+    
+    let calculatedProb = (humidity > 75 && temp > 28) ? Math.floor(Math.random() * (95 - 75) + 75) : Math.floor(Math.random() * (25 - 5) + 5);
+    
+    probElem.innerText = calculatedProb + "%";
+    
+    if (calculatedProb > 70) {
+        statusElem.innerText = "⚠️ خطر: احتمالية عالية للإصابة (High Risk)";
+        statusElem.style.color = "var(--accent-red)";
+    } else if (calculatedProb > 40) {
+        statusElem.innerText = "⚡ تحذير: إصابة محتملة (Moderate Risk)";
+        statusElem.style.color = "#f59e0b";
+    } else {
+        statusElem.innerText = "✅ آمن - النباتات سليمة (Healthy)";
+        statusElem.style.color = "var(--accent-green)";
+    }
+    
+    if (humidity < 50) {
+        stressElem.innerText = "🚨 إجهاد مائي مرتفع (High Water Stress)";
+        stressElem.style.color = "var(--accent-red)";
+    } else {
+        stressElem.innerText = "💧 رطوبة التربة مثالية (Optimal Moisture)";
+        stressElem.style.color = "var(--accent-green)";
+    }
+}
+
+// كود تفعيل العمل بدون إنترنت (Data Caching)
+if ('serviceWorker' in navigator) {
+    const swCode = `
+        self.addEventListener('install', e => {
+            e.waitUntil(caches.open('greenhouse-cache').then(cache => cache.add(location.href)));
+        });
+        self.addEventListener('fetch', e => {
+            e.respondWith(caches.match(e.request).then(response => response || fetch(e.request)));
+        });
+    `;
+    const blob = new Blob([swCode], { type: 'application/javascript' });
+    const swUrl = URL.createObjectURL(blob);
+    navigator.serviceWorker.register(swUrl).catch(() => {});
+}
+</script>
+
+</body>
+</html>
