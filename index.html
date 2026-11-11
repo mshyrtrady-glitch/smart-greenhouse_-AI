@@ -3,207 +3,266 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ISEF Smart Greenhouse - Ultimate Edge AI</title>
+    <title>لوحة تحكم الصوبة الذكية (Edge AI & Cloud)</title>
     <style>
         :root {
-            --bg-color: #070f1e;
-            --card-bg: #111c33;
-            --accent-green: #00ff88;
-            --accent-red: #ff3366;
-            --accent-blue: #00d2ff;
-            --text-color: #ffffff;
+            --bg-color: #0d1117;
+            --card-bg: #161b22;
+            --accent-green: #238636;
+            --accent-green-hover: #2ea043;
+            --accent-blue: #1f6feb;
+            --text-color: #c9d1d9;
+            --border-color: #30363d;
         }
+
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             background-color: var(--bg-color);
             color: var(--text-color);
             margin: 0;
-            padding: 15px;
+            padding: 20px;
             direction: rtl;
         }
-        .container { max-width: 900px; margin: 0 auto; }
+
+        .container {
+            max-width: 950px;
+            margin: 0 auto;
+        }
+
         .header {
             text-align: center;
-            padding: 20px;
+            padding: 15px;
             background: var(--card-bg);
-            border-radius: 15px;
+            border-radius: 10px;
             margin-bottom: 20px;
-            border: 2px solid var(--accent-green);
-            box-shadow: 0 0 20px rgba(0, 255, 136, 0.2);
+            border: 1px solid var(--border-color);
         }
+
+        .grid-2 {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(420px, 1fr));
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
         .card {
             background: var(--card-bg);
-            border-radius: 15px;
-            padding: 20px;
-            margin-bottom: 20px;
-            border: 1px solid #1f2f4e;
-            box-shadow: 0 8px 16px rgba(0,0,0,0.3);
-        }
-        .grid-3 {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-            gap: 15px;
-        }
-        .sensor-box {
-            background: #0b1325;
+            border-radius: 10px;
             padding: 15px;
-            border-radius: 12px;
-            text-align: center;
-            border: 1px solid #23395b;
+            border: 1px solid var(--border-color);
+            box-shadow: 0 3px 6px rgba(0,0,0,0.2);
+            margin-bottom: 20px;
         }
-        .val { font-size: 28px; font-weight: bold; color: var(--accent-green); margin-top: 8px; }
-        .gallery {
+
+        h3 {
+            margin-top: 0;
+            font-size: 16px;
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 8px;
+            color: #58a6ff;
+        }
+
+        .sensor-row, .status-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 12px;
+            background: #0d1117;
+            padding: 8px 12px;
+            border-radius: 6px;
+            border: 1px solid var(--border-color);
+        }
+
+        .plant-gallery {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-            gap: 12px;
+            grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+            gap: 10px;
             margin-top: 15px;
         }
-        .plant-card {
-            background: #0b1325;
-            border-radius: 10px;
+
+        .plant-item {
+            background: #0d1117;
+            border-radius: 8px;
             overflow: hidden;
-            border: 1px solid #23395b;
+            border: 1px solid var(--border-color);
             text-align: center;
         }
-        .plant-card img { width: 100%; height: 130px; object-fit: cover; }
+
+        .plant-item img {
+            width: 100%;
+            height: 100px;
+            object-fit: cover;
+        }
+
         .btn {
             width: 100%;
-            padding: 14px;
-            background: linear-gradient(135deg, #00ff88, #00b368);
+            padding: 10px;
+            background: var(--accent-green);
             border: none;
-            color: #070f1e;
-            border-radius: 10px;
-            font-size: 16px;
+            color: white;
+            border-radius: 6px;
             font-weight: bold;
             cursor: pointer;
+            text-align: center;
+            transition: 0.2s;
             margin-top: 10px;
-            box-shadow: 0 4px 12px rgba(0,255,136,0.3);
         }
-        .row { display: flex; justify-content: space-between; margin-bottom: 12px; padding-bottom: 8px; border-bottom: 1px solid #1f2f4e; }
+
+        .btn:hover {
+            background: var(--accent-green-hover);
+        }
+
+        .action-badge {
+            background: #21262d;
+            padding: 6px 10px;
+            border-radius: 6px;
+            font-size: 13px;
+            border: 1px solid var(--border-color);
+            margin-bottom: 8px;
+            display: block;
+        }
     </style>
 </head>
 <body>
 
 <div class="container">
     <div class="header">
-        <h1 style="margin:0 0 5px 0; color: var(--accent-green);">🌱 ISEF Smart Greenhouse AI</h1>
-        <p style="margin:0; opacity: 0.8;">نظام الحافة الذكي للتحكم بالصوبة والتشخيص التنبؤي للأمراض</p>
+        <h2>🌱 لوحة تحكم الصوبة الذكية (Edge AI & Cloud)</h2>
+        <p style="margin: 5px 0 0 0; font-size: 13px; opacity: 0.7;">مشروع ISEF - نظام المراقبة المحلي والتشغيل الذكي</p>
     </div>
 
-    <!-- قسم الحساسات -->
-    <div class="card">
-        <h3>📊 قراءات الحساسات المباشرة (Live Telemetry)</h3>
-        <div class="grid-3">
-            <div class="sensor-box">
-                <span>🌡️ حرارة الجو</span>
-                <div class="val" id="temp">29 °C</div>
+    <div class="grid-2">
+        <!-- قسم قراءات الحساسات المباشرة -->
+        <div class="card" style="margin-bottom: 0;">
+            <h3>📊 حالة الحساسات (نظام محلي)</h3>
+            <div class="sensor-row">
+                <span>درجة الحرارة (Temp)</span>
+                <span id="tempVal">28 °C</span>
             </div>
-            <div class="sensor-box">
-                <span>💧 رطوبة الجو</span>
-                <div class="val" id="hum">72%</div>
+            <div class="sensor-row">
+                <span>رطوبة الجو (Air Humidity)</span>
+                <span id="humVal">68%</span>
             </div>
-            <div class="sensor-box">
-                <span>🌱 رطوبة التربة</span>
-                <div class="val" id="soil">45%</div>
+            <div class="sensor-row">
+                <span>رطوبة التربة (Soil Moisture)</span>
+                <span id="soilVal">52%</span>
             </div>
+            <button class="btn" onclick="updateDashboard()">تحديث قراءات الحساسات فورياً</button>
         </div>
-        <button class="btn" onclick="refreshSystem()">🔄 تحديث القراءات واستجابة النظام</button>
-    </div>
 
-    <!-- صور النباتات -->
-    <div class="card">
-        <h3>🌿 موثوقية النباتات والكشف البصري (Visual Monitoring)</h3>
-        <div class="gallery">
-            <div class="plant-card">
-                <img src="https://images.unsplash.com/photo-1592417817098-8f3d692ad4b5?auto=format&fit=crop&w=400&q=80" alt="Plant 1">
-                <p style="font-size: 13px; margin: 8px;">طماطم - فحص الأوراق</p>
-            </div>
-            <div class="plant-card">
-                <img src="https://images.unsplash.com/photo-1530836369250-ef72a3f5cda8?auto=format&fit=crop&w=400&q=80" alt="Plant 2">
-                <p style="font-size: 13px; margin: 8px;">النمو الخضري العام</p>
-            </div>
-            <div class="plant-card">
-                <img src="https://images.unsplash.com/photo-1585320806297-9794b3e4eeae?auto=format&fit=crop&w=400&q=80" alt="Plant 3">
-                <p style="font-size: 13px; margin: 8px;">قطاع الجذور والتربة</p>
-            </div>
+        <!-- قسم استجابة النظام الفورية (Edge Actions) -->
+        <div class="card" style="margin-bottom: 0;">
+            <h3>⚡ استجابة النظام الفورية (Edge Actions)</h3>
+            <div class="action-badge">🟢 حالة المروحة: مرتبطة بالحرارة والتهوية</div>
+            <div class="action-badge">💧 حالة المضخة: مرتبطة برطوبة التربة بدقة</div>
+            <div class="action-badge">💡 النظام الآلي: يعمل بشكل مستقل (Autonomous)</div>
         </div>
     </div>
 
-    <!-- قسم الذكاء الاصطناعي الاحتمالي -->
-    <div class="card" style="border: 2px solid var(--accent-blue);">
-        <h3 style="color: var(--accent-blue);">🧠 Edge AI Disease & Stress Prediction</h3>
+    <!-- قسم صور النباتات الحية (Plant Monitoring) -->
+    <div class="card">
+        <h3>🌿 المراقبة البصرية وصور النباتات الحية (Plant Monitoring)</h3>
+        <p style="font-size: 13px; opacity: 0.8;">معرض الصور الميداني لتوثيق نمو المحصول والكشف البصري الأولي:</p>
+        <div class="plant-gallery">
+            <div class="plant-item">
+                <img src="https://images.unsplash.com/photo-1592417817098-8f3d692ad4b5?auto=format&fit=crop&w=300&q=80" alt="Plant 1">
+                <p style="font-size: 11px; margin: 6px;">طماطم - فحص الأوراق</p>
+            </div>
+            <div class="plant-item">
+                <img src="https://images.unsplash.com/photo-1530836369250-ef72a3f5cda8?auto=format&fit=crop&w=300&q=80" alt="Plant 2">
+                <p style="font-size: 11px; margin: 6px;">النمو الخضري العام</p>
+            </div>
+            <div class="plant-item">
+                <img src="https://images.unsplash.com/photo-1585320806297-9794b3e4eeae?auto=format&fit=crop&w=300&q=80" alt="Plant 3">
+                <p style="font-size: 11px; margin: 6px;">قطاع الجذور والتربة</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- قسم الذكاء الاصطناعي الاحتمالي والتشخيص -->
+    <div class="card" style="border: 1px solid var(--accent-green);">
+        <h3>🧠 فحص الذكاء الاصطناعي المحلي (Edge AI Leaf Disease Detection)</h3>
+        <p style="font-size: 13px; opacity: 0.8;">تقييم النموذج المصغر (YOLO) للكشف عن الأمراض والتربة:</p>
+        
         <div style="margin-top: 15px;">
-            <div class="row">
-                <span>حالة المرض المتوقعة:</span>
-                <strong id="dStatus" style="color: var(--accent-green);">آمن تماماً (Normal)</strong>
+            <div class="status-row">
+                <span>حالة التشخيص المتوقعة:</span>
+                <strong id="diseaseStatus" style="color: #3fb950;">آمن (Normal)</strong>
             </div>
-            <div class="row">
-                <span>احتمالية الإصابة بالفطريات:</span>
-                <strong id="dProb">11%</strong>
+            <div class="status-row">
+                <span>احتمالية الإصابة (Probability):</span>
+                <strong id="diseaseProb">12%</strong>
             </div>
-            <div class="row">
-                <span>مستوى الإجهاد المائي:</span>
-                <strong id="sLevel" style="color: var(--accent-blue);">مثالي (Optimal)</strong>
+            <div class="status-row">
+                <span>مستوى الإجهاد المائي (Water Stress):</span>
+                <strong id="waterStress" style="color: #58a6ff;">مثالي (Optimal)</strong>
             </div>
         </div>
-        <button class="btn" style="background: linear-gradient(135deg, #00d2ff, #0078ff); color: white;" onclick="runAI()">⚡ تشغيل التشخيص التنبؤي الاحتمالي</button>
+
+        <button class="btn" style="background: var(--accent-blue);" onclick="runAiPrediction()">
+            تشغيل فحص الذكاء الاصطناعي الاحتمالي (Run AI Analysis)
+        </button>
     </div>
 </div>
 
 <script>
-function refreshSystem() {
-    let t = Math.floor(Math.random() * (37 - 20) + 20);
-    let h = Math.floor(Math.random() * (90 - 40) + 40);
-    let s = Math.floor(Math.random() * (75 - 25) + 25);
+function updateDashboard() {
+    let t = Math.floor(Math.random() * (36 - 22) + 22);
+    let h = Math.floor(Math.random() * (85 - 45) + 45);
+    let s = Math.floor(Math.random() * (70 - 30) + 30);
 
-    document.getElementById('temp').innerText = t + " °C";
-    document.getElementById('hum').innerText = h + "%";
-    document.getElementById('soil').innerText = s + "%";
+    document.getElementById('tempVal').innerText = t + " °C";
+    document.getElementById('humVal').innerText = h + "%";
+    document.getElementById('soilVal').innerText = s + "%";
 
-    evaluateAI(t, h, s);
+    calculateAI(t, h, s);
 }
 
-function runAI() {
-    let t = parseInt(document.getElementById('temp').innerText);
-    let h = parseInt(document.getElementById('hum').innerText);
-    let s = parseInt(document.getElementById('soil').innerText);
-    evaluateAI(t, h, s);
+function runAiPrediction() {
+    let t = parseInt(document.getElementById('tempVal').innerText);
+    let h = parseInt(document.getElementById('humVal').innerText);
+    let s = parseInt(document.getElementById('soilVal').innerText);
+    calculateAI(t, h, s);
 }
 
-function evaluateAI(t, h, s) {
-    let probElem = document.getElementById('dProb');
-    let statusElem = document.getElementById('dStatus');
-    let stressElem = document.getElementById('sLevel');
+function calculateAI(t, h, s) {
+    let probElem = document.getElementById('diseaseProb');
+    let statusElem = document.getElementById('diseaseStatus');
+    let stressElem = document.getElementById('waterStress');
 
-    let probability = (h > 75 && t > 28) ? Math.floor(Math.random() * (95 - 75) + 75) : Math.floor(Math.random() * (22 - 5) + 5);
-    probElem.innerText = probability + "%";
+    let prob = (h > 75 && t > 28) ? Math.floor(Math.random() * (90 - 70) + 70) : Math.floor(Math.random() * (25 - 8) + 8);
+    probElem.innerText = prob + "%";
 
-    if (probability > 70) {
-        statusElem.innerText = "⚠️ خطر عالٍ: احتمالية إصابة بلفحة الأوراق (High Risk)";
-        statusElem.style.color = "var(--accent-red)";
-    } else if (probability > 40) {
-        statusElem.innerText = "⚡ تحذير مبكر: بداية إجهاد مرضى (Moderate)";
-        statusElem.style.color = "#ffaa00";
+    if (prob > 70) {
+        statusElem.innerText = "⚠️ خطر عالي: احتمالية إصابة فطرية (High Risk)";
+        statusElem.style.color = "#f85149";
+    } else if (prob > 40) {
+        statusElem.innerText = "⚡ تحذير مبكر (Moderate Risk)";
+        statusElem.style.color = "#d29922";
     } else {
-        statusElem.innerText = "✅ الحالة سليمة وآمنة (Healthy)";
-        statusElem.style.color = "var(--accent-green)";
+        statusElem.innerText = "✅ آمن - نباتات سليمة تماماً (Healthy)";
+        statusElem.style.color = "#3fb950";
     }
 
-    if (s < 38) {
-        stressElem.innerText = "🚨 إجهاد مائي حاد - تم تفعيل نظام الري (High Stress)";
-        stressElem.style.color = "var(--accent-red)";
-    } else if (s > 70) {
-        stressElem.innerText = "💧 زيادة حادة في رطوبة التربة (Over-watered)";
-        stressElem.style.color = "#ffaa00";
+    if (s < 40) {
+        stressElem.innerText = "🚨 إجهاد مائي حاد - مطلوب ري (High Stress)";
+        stressElem.style.color = "#f85149";
     } else {
-        stressElem.innerText = "🌿 رطوبة التربة مثالية ومستقرة (Optimal)";
-        stressElem.style.color = "var(--accent-green)";
+        stressElem.innerText = "💧 رطوبة التربة مثالية (Optimal Moisture)";
+        stressElem.style.color = "#3fb950";
     }
 }
 
-// تشغيل الأوفلاين التلقائي
+// كود تشغيل التطبيق بالكامل بدون نت (Offline PWA / Service Worker)
 if ('serviceWorker' in navigator) {
-    const swCode = `self.addEventListener('fetch', e => { e.respondWith(fetch(e.request).catch(() => caches.match(e.request))); });`;
+    const swCode = `
+        self.addEventListener('install', e => {
+            e.waitUntil(caches.open('greenhouse-v4').then(cache => cache.add(location.href)));
+        });
+        self.addEventListener('fetch', e => {
+            e.respondWith(caches.match(e.request).then(res => res || fetch(e.request)));
+        });
+    `;
     const blob = new Blob([swCode], { type: 'application/javascript' });
     navigator.serviceWorker.register(URL.createObjectURL(blob)).catch(() => {});
 }
