@@ -24,7 +24,7 @@
         }
 
         .container {
-            max-width: 800px;
+            max-width: 900px;
             margin: 0 auto;
         }
 
@@ -46,13 +46,9 @@
             box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
         }
 
-        .ai-card {
-            border: 1px solid var(--accent-green);
-        }
-
         .metrics-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
             gap: 15px;
             margin-bottom: 15px;
         }
@@ -62,12 +58,29 @@
             padding: 15px;
             border-radius: 8px;
             text-align: center;
+            border: 1px solid #334155;
         }
 
         .metric-value {
-            font-size: 24px;
+            font-size: 26px;
             font-weight: bold;
             color: var(--accent-green);
+            margin-top: 5px;
+        }
+
+        .plant-gallery {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 10px;
+            margin-top: 15px;
+        }
+
+        .plant-img {
+            width: 100%;
+            height: 120px;
+            object-fit: cover;
+            border-radius: 8px;
+            border: 2px solid var(--accent-green);
         }
 
         .btn {
@@ -100,23 +113,63 @@
 
 <div class="container">
     <div class="header">
-        <h2>🌱 Smart Greenhouse Edge-AI Control Center</h2>
-        <p style="opacity: 0.8; margin: 0;">نظام التحكم والتشخيص التنبؤي الذكي للصوبة الزراعية</p>
+        <h2>🌱 Smart Greenhouse Edge-AI Dashboard</h2>
+        <p style="opacity: 0.8; margin: 0;">نظام الرصد الذكي والتشخيص التنبؤي لبيئة الصوبة الزراعية</p>
     </div>
 
-    <!-- كارت الذكاء الاصطناعي الاحتمالي -->
-    <div class="card ai-card">
-        <h3>🌿 Edge AI & Disease Probability Diagnostics</h3>
-        <p style="font-size: 14px; opacity: 0.8;">تحليل لحظي لاحتمالية الإصابة بالأمراض والإجهاد المائي بناءً على البيانات القادمة من الحساسات:</p>
+    <!-- كارت قراءات الحساسات الحية -->
+    <div class="card">
+        <h3>📊 قراءات الحساسات المباشرة (Sensors Telemetry)</h3>
+        <div class="metrics-grid">
+            <div class="metric-box">
+                <span>🌡️ درجة الحرارة (Temp)</span>
+                <div class="metric-value" id="tempVal">28 °C</div>
+            </div>
+            <div class="metric-box">
+                <span>💧 رطوبة الجو (Air Humidity)</span>
+                <div class="metric-value" id="humidityVal">65%</div>
+            </div>
+            <div class="metric-box">
+                <span>🌱 رطوبة التربة (Soil Moisture)</span>
+                <div class="metric-value" id="soilVal">58%</div>
+            </div>
+        </div>
+        <button class="btn" onclick="updateSensors()">تحديث قراءات الحساسات فوريًا (Refresh)</button>
+    </div>
+
+    <!-- كارت صور النباتات ومتابعة النمو -->
+    <div class="card">
+        <h3>🌿 حالة النباتات الحية داخل الصوبة (Plant Monitoring)</h3>
+        <p style="font-size: 14px; opacity: 0.8;">صور توثيقية حية لنمو المحصول والكشف البصري الأولي:</p>
+        <div class="plant-gallery">
+            <div>
+                <img src="https://images.unsplash.com/photo-1530836369250-ef72a3f5cda8?auto=format&fit=crop&w=400&q=80" alt="Tomato Plant" class="plant-img">
+                <p style="text-align: center; font-size: 12px; margin-top: 5px;">طماطم - نمو خضري</p>
+            </div>
+            <div>
+                <img src="https://images.unsplash.com/photo-1585320806297-9794b3e4eeae?auto=format&fit=crop&w=400&q=80" alt="Greenhouse Crops" class="plant-img">
+                <p style="text-align: center; font-size: 12px; margin-top: 5px;">صوبة الأبحاث - عام</p>
+            </div>
+            <div>
+                <img src="https://images.unsplash.com/photo-1592417817098-8f3d692ad4b5?auto=format&fit=crop&w=400&q=80" alt="Leaf Health" class="plant-img">
+                <p style="text-align: center; font-size: 12px; margin-top: 5px;">فحص الأوراق الحساسة</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- كارت الذكاء الاصطناعي الاحتمالي والتشخيص -->
+    <div class="card" style="border: 1px solid var(--accent-green);">
+        <h3>🧠 Edge AI Disease & Stress Diagnostics</h3>
+        <p style="font-size: 14px; opacity: 0.8;">التحليل التنبؤي المعتمد على خوارزميات الحافة (Edge Computing):</p>
         
         <div style="margin-top: 15px;">
             <div class="status-row">
                 <span>حالة المرض المتوقعة (Disease Risk):</span>
-                <strong id="diseaseStatus" style="color: var(--accent-green);">آمن (Normal)</strong>
+                <strong id="diseaseStatus" style="color: var(--accent-green);">آمن - سليمة (Normal)</strong>
             </div>
             <div class="status-row">
                 <span>احتمالية الإصابة (Probability):</span>
-                <strong id="diseaseProb">12%</strong>
+                <strong id="diseaseProb">14%</strong>
             </div>
             <div class="status-row">
                 <span>مستوى الإجهاد المائي (Water Stress):</span>
@@ -124,51 +177,73 @@
             </div>
         </div>
         
-        <button class="btn" style="margin-top: 15px;" onclick="runAiPrediction()">
-            تشغيل فحص الذكاء الاصطناعي الاحتمالي (Run AI Analysis)
+        <button class="btn" style="margin-top: 15px; background: var(--accent-blue);" onclick="runAiPrediction()">
+            تشغيل تشخيص الذكاء الاصطناعي (Run AI Analysis)
         </button>
     </div>
 </div>
 
 <script>
-// دالة التشخيص الاحتمالي
+// تحديث قراءات الحساسات وهمياً لاختبار الاستجابة الفورية
+function updateSensors() {
+    let t = Math.floor(Math.random() * (38 - 22) + 22);
+    let h = Math.floor(Math.random() * (85 - 45) + 45);
+    let s = Math.floor(Math.random() * (70 - 30) + 30);
+
+    document.getElementById('tempVal').innerText = t + " °C";
+    document.getElementById('humidityVal').innerText = h + "%";
+    document.getElementById('soilVal').innerText = s + "%";
+
+    // تشغيل الـ AI تلقائياً مع كل تحديث للحساسات
+    runAiPredictionWithValues(t, h, s);
+}
+
+// دالة التشخيص الذكي بناءً على القراءات
 function runAiPrediction() {
-    let humidity = Math.floor(Math.random() * (90 - 40) + 40);
-    let temp = Math.floor(Math.random() * (40 - 20) + 20);
-    
+    let t = parseInt(document.getElementById('tempVal').innerText);
+    let h = parseInt(document.getElementById('humidityVal').innerText);
+    let s = parseInt(document.getElementById('soilVal').innerText);
+    runAiPredictionWithValues(t, h, s);
+}
+
+function runAiPredictionWithValues(t, h, s) {
     let probElem = document.getElementById('diseaseProb');
     let statusElem = document.getElementById('diseaseStatus');
     let stressElem = document.getElementById('waterStressLevel');
-    
-    let calculatedProb = (humidity > 75 && temp > 28) ? Math.floor(Math.random() * (95 - 75) + 75) : Math.floor(Math.random() * (25 - 5) + 5);
-    
-    probElem.innerText = calculatedProb + "%";
-    
-    if (calculatedProb > 70) {
-        statusElem.innerText = "⚠️ خطر: احتمالية عالية للإصابة (High Risk)";
+
+    // حساب الاحتمالية بناءً على الحرارة والرطوبة
+    let calcProb = (h > 75 && t > 30) ? Math.floor(Math.random() * (92 - 75) + 75) : Math.floor(Math.random() * (28 - 8) + 8);
+    probElem.innerText = calcProb + "%";
+
+    if (calcProb > 70) {
+        statusElem.innerText = "⚠️ خطر عالي: احتمالية إصابة بلفحة الأوراق (High Risk)";
         statusElem.style.color = "var(--accent-red)";
-    } else if (calculatedProb > 40) {
-        statusElem.innerText = "⚡ تحذير: إصابة محتملة (Moderate Risk)";
+    } else if (calcProb > 40) {
+        statusElem.innerText = "⚡ تحذير: بداية ظهور بقع فطرية (Moderate Risk)";
         statusElem.style.color = "#f59e0b";
     } else {
-        statusElem.innerText = "✅ آمن - النباتات سليمة (Healthy)";
+        statusElem.innerText = "✅ آمن تماماً - النباتات سليمة (Healthy)";
         statusElem.style.color = "var(--accent-green)";
     }
-    
-    if (humidity < 50) {
-        stressElem.innerText = "🚨 إجهاد مائي مرتفع (High Water Stress)";
+
+    // تقييم الإجهاد المائي بناءً على رطوبة التربة
+    if (s < 40) {
+        stressElem.innerText = "🚨 إجهاد مائي مرتفع - مطلوب ري (High Stress)";
         stressElem.style.color = "var(--accent-red)";
+    } else if (s > 65) {
+        stressElem.innerText = "💧 رطوبة زائدة (Over-saturated)";
+        statusElem.style.color = "#f59e0b";
     } else {
-        stressElem.innerText = "💧 رطوبة التربة مثالية (Optimal Moisture)";
+        stressElem.innerText = "🌿 رطوبة التربة مثالية (Optimal)";
         stressElem.style.color = "var(--accent-green)";
     }
 }
 
-// كود تفعيل العمل بدون إنترنت (Data Caching)
+// كود تشغيل التطبيق بدون إنترنت (Offline Cache)
 if ('serviceWorker' in navigator) {
     const swCode = `
         self.addEventListener('install', e => {
-            e.waitUntil(caches.open('greenhouse-cache').then(cache => cache.add(location.href)));
+            e.waitUntil(caches.open('greenhouse-v2').then(cache => cache.add(location.href)));
         });
         self.addEventListener('fetch', e => {
             e.respondWith(caches.match(e.request).then(response => response || fetch(e.request)));
